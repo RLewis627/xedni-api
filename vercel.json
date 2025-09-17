@@ -1,18 +1,30 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "app/main.py",
-      "use": "@vercel/python",
-      "config": {
-        "excludeFiles": "/{.next,*.cache,node_modules,public,app}/**"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "main.py"
+      "src": "app/(.*)",
+      "dest": "app/main.py"
     }
+  ],
+  "excludeFiles": [
+    "**/*.pyc",
+    "**/__pycache__/**",
+    ".env",
+    ".git/**",
+    ".venv/**",
+    "automations/**",
+    "docs/**",
+    "logdir/**",
+    "tests/**",
+    "prisma/migrations/**",
+    "Dockerfile",
+    "README.md",
+    "pytest.ini",
+    "package.json"
   ]
 }
