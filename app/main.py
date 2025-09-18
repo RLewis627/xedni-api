@@ -1,4 +1,7 @@
 import os
+import random
+import math
+import datetime as dt
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -38,54 +41,40 @@ def root():
 @app.post("/generate")
 def generate(req: GenerateRequest):
     
-    #np.random.seed(42)  # reproducible for testing
-    #dt = 1 / 252  # daily steps
-    #mu = 0.05     # drift
-    #sigma = 0.2   # volatility
+    random.seed(27)  # reproducible for testing
+    ds = 1 / 252  # daily steps
+    mu = 0.05     # drift
+    sigma = 0.2   # volatility
 
-    #prices = [req.start_price]
-    #for _ in range(req.days - 1):
-    #    shock = np.random.normal(loc=(mu - 0.5 * sigma**2) * dt,
-    #                             scale=sigma * np.sqrt(dt))
-    #    prices.append(prices[-1] * np.exp(shock))
+    prices = [req.start_price]
+    for _ in range(req.days - 1):
+        shock = random.normalvariate((mu - 0.5 * sigma**2) * ds,
+                                      sigma * math.sqrt(ds))
+        prices.append(prices[-1] * math.exp(shock))
 
     ## Build a fake OHLC dataframe
-    #dates = [datetime.today() - timedelta(days=i) for i in range(req.days)]
-    #dates = list(reversed(dates))
+    dates = [dt.datetime.today() - dt.timedelta(days=i) for i in range(req.days)]
+    dates = list(reversed(dates))
 
-    #df = pd.DataFrame({
-    #    "date": dates,
-    #    "open": prices,
-    #    "high": [p * (1 + np.random.uniform(0, 0.02)) for p in prices],
-    #    "low": [p * (1 - np.random.uniform(0, 0.02)) for p in prices],
-    #    "close": prices,
-    #    "volume": np.random.randint(1000, 5000, size=req.days)
-    #})
+    df = []
+    for i in range(len(dates)):
+        high = prices[i] * (1 + random.uniform(0, 0.02))
+        low = prices[i] * (1 - random.uniform(0, 0.02))
+        df.append({
+            "date": dates[i],
+            "open": prices[i],
+            "high": high,
+            "low": low,
+            "close": random.uniform(low, high),
+            "volume": random.randint(1000, 5000)
+        })
 
-    #return df.to_dict(orient="records")
-    return {"message": "Data generation is currently disabled."}
+    return df
 
 # Simple moving average crossover strategy, just to start
 # Buy when short MA crosses above long MA, sell when it crosses below
 @app.post("/backtest")
 def backtest(req: BacktestRequest):
-
-    #prices = pd.Series(req.prices)
-
-    #short_ma = prices.rolling(window=req.short_window).mean()
-    #long_ma = prices.rolling(window=req.long_window).mean()
-
-    #signal = (short_ma > long_ma).astype(int)  # 1 = long, 0 = flat
-    #returns = prices.pct_change().fillna(0)
-    #strategy_returns = (signal.shift(1) * returns).fillna(0)
-
-    #cumulative_returns = (1 + strategy_returns).cumprod()
-
-    #return {
-    #    "cumulative_return": float(cumulative_returns.iloc[-1]),
-    #    "signals": signal.tolist(),
-    #    "equity_curve": cumulative_returns.tolist()
-    #}
     return {"message": "Backtesting is currently disabled."}
 
 @app.get("/health")
