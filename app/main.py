@@ -69,23 +69,6 @@ def generate(req: GenerateRequest):
 # Buy when short MA crosses above long MA, sell when it crosses below
 @app.post("/backtest")
 def backtest(req: BacktestRequest):
-
-    #prices = pd.Series(req.prices)
-
-    #short_ma = prices.rolling(window=req.short_window).mean()
-    #long_ma = prices.rolling(window=req.long_window).mean()
-
-    #signal = (short_ma > long_ma).astype(int)  # 1 = long, 0 = flat
-    #returns = prices.pct_change().fillna(0)
-    #strategy_returns = (signal.shift(1) * returns).fillna(0)
-
-    #cumulative_returns = (1 + strategy_returns).cumprod()
-
-    #return {
-    #    "cumulative_return": float(cumulative_returns.iloc[-1]),
-    #    "signals": signal.tolist(),
-    #    "equity_curve": cumulative_returns.tolist()
-    #}
     return {"message": "Backtesting is currently disabled."}
 
 @app.get("/health")
