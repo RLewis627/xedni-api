@@ -9,12 +9,13 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 # Allow frontend origin only
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "https://xedni-sandbox.vercel.app").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=[origin.strip() for origin in allowed_origins],
     allow_credentials=True,
-    allow_methods=["OPTIONS", "GET", "POST"]
+    allow_methods=["OPTIONS", "GET", "POST"],
+    allow_headers=["Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"]
 )
 
 # ---------- Models ----------
