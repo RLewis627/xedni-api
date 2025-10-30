@@ -39,7 +39,7 @@ def root():
 
 
 # Generate fake stock data using geometric Brownian motion
-@app.post("/generate")
+@app.post("/v1/generate")
 def generate(req: GenerateRequest):
     
     rachels_age = (datetime.now() - datetime(1997, 12, 6)).seconds
