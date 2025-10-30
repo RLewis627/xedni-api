@@ -42,7 +42,9 @@ def root():
 @app.post("/generate")
 def generate(req: GenerateRequest):
     
-    random.seed(27)  # reproducible for testing
+    rachels_age = (datetime.now() - datetime(1997, 12, 6)).seconds
+    random.seed(rachels_age)  # reproducible for testing
+
     ds = 1 / 252  # daily steps
     mu = 0.05     # drift
     sigma = 0.2   # volatility
