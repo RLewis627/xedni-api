@@ -66,7 +66,7 @@ def generate(req: GenerateRequest):
         low = prices[i] * (1 - random.uniform(0, 0.02))
         df.append({
             "date": dates[i],
-            "open": prices[i],
+            "open": prices[i] if i-1 < 0 else prices[i-1],
             "high": high,
             "low": low,
             "close": random.uniform(low, high),
@@ -105,7 +105,7 @@ def generate(req: GenerateRequest):
         low = prices[i] * (1 - random.uniform(0, 0.02))
         df.append({
             "date": dates[i],
-            "open": prices[i],
+            "open": prices[i] if i-1 < 0 else prices[i-1],
             "high": high,
             "low": low,
             "close": random.uniform(low, high),
