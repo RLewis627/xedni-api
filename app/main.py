@@ -57,6 +57,7 @@ def generate(req: GenerateRequest):
 
     ## Build a fake OHLC dataframe
     dates = [dt.datetime.today() - dt.timedelta(days=i) for i in range(req.days)]
+    dates = [d for d in dates if d.weekday() < 5]  # exclude weekends
     dates = list(reversed(dates))
 
     df = []
@@ -95,6 +96,7 @@ def generate(req: GenerateRequest):
 
     ## Build a fake OHLC dataframe
     dates = [dt.datetime.today() - dt.timedelta(days=i) for i in range(req.days)]
+    dates = [d for d in dates if d.weekday() < 5]  # exclude weekends
     dates = list(reversed(dates))
 
     df = []
