@@ -37,25 +37,25 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 Clone the project
 
 ```bash
-  git clone https://github.com/RLewis627/xedni.git
+  git clone https://github.com/RLewis627/xedni-api.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd xedni
+  cd xedni-api
 ```
 
-Install dependencies
+Run virtual environment
 
 ```bash
-  npm install
+  . venv\scripts\activate
 ```
 
 Start the server
 
 ```bash
-  npm run dev
+  uvicorn app.main:app --reload
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
